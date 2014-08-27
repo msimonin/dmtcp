@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo "Checkpointed in the following directory : $1"
