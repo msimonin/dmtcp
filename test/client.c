@@ -12,14 +12,15 @@
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
-  int port = (argc == 2 ? atoi(argv[1]) : 6500);
+  char* server = (argc >= 2 ? argv[1] : "127.0.0.1");
+  int port = (argc >= 3 ? atoi(argv[2]) : 6500);
   struct sockaddr_in sockaddr;
   int listener_sd, rc;
   pid_t pid;
 
   memset(&sockaddr, 0, sizeof(sockaddr));
   sockaddr.sin_family = AF_INET;
-  inet_aton("192.168.200.2", &sockaddr.sin_addr);
+  inet_aton(server, &sockaddr.sin_addr);
   // sockaddr.sin_addr.s_addr = INADDR_LOOPBACK;
   sockaddr.sin_port = htons(port);
 

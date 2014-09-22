@@ -18,7 +18,7 @@ void generate_new_directory(void)
     baseCkptDir = (char *)dmtcp_get_ckpt_dir();
   }
   snprintf(newCkptDir, MAX_CKPT_DIR_LENGTH, "%s/%s_%05"PRIu32"", baseCkptDir,
-      dmtcp_get_computation_id_str(), dmtcp_get_generation());
+      dmtcp_get_uniquepid_str(), dmtcp_get_generation());
 
 }
 

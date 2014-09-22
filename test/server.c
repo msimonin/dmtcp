@@ -20,14 +20,14 @@ int main(int argc, char *argv[]) {
 
   memset(&sockaddr, 0, sizeof(sockaddr));
   sockaddr.sin_family = AF_INET;
-  inet_aton("192.168.200.2", &sockaddr.sin_addr);
-  // sockaddr.sin_addr.s_addr = INADDR_LOOPBACK;
+  //inet_aton("localhost", &sockaddr.sin_addr);
+  sockaddr.sin_addr.s_addr = INADDR_ANY;
   sockaddr.sin_port = htons(port);
 
   listener_sd = socket(AF_INET, SOCK_STREAM, 0);
   do {
-    sockaddr.sin_port = htons(ntohs(sockaddr.sin_port)+1);
     rc = bind(listener_sd, (struct sockaddr *)&sockaddr, sizeof(sockaddr));
+    sockaddr.sin_port = htons(ntohs(sockaddr.sin_port) + 1);
   } while (rc == -1 && errno == EADDRINUSE);
   if (rc == -1)
     perror("bind");
