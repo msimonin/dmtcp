@@ -5,10 +5,12 @@
 
 #define MAX_CKPT_DIR_LENGTH 128
 #define MAX_SCRIPT_PATH_LENGTH 128
+#define MAX_CREATEDIR_CMD 128
 
 #define HOOK_PATH "/home/work/software/dmtcp/contrib/script"
 
 static char *baseCkptDir;
+static char createCkptDirCmd[MAX_CREATEDIR_CMD];
 static char newCkptDir[MAX_CKPT_DIR_LENGTH];
 static char scriptCmd[MAX_SCRIPT_PATH_LENGTH];
 
@@ -17,9 +19,8 @@ void generate_new_directory(void)
   if (dmtcp_get_generation() == 1) {
     baseCkptDir = (char *)dmtcp_get_ckpt_dir();
   }
-  snprintf(newCkptDir, MAX_CKPT_DIR_LENGTH, "%s/%s_%05"PRIu32"", baseCkptDir,
-      dmtcp_get_uniquepid_str(), dmtcp_get_generation());
-
+  snprintf(newCkptDir, MAX_CKPT_DIR_LENGTH, "%s/%05"PRIu32"/%s", baseCkptDir,
+      dmtcp_get_generation(), dmtcp_get_uniquepid_str());
 }
 
 void dmtcp_event_hook(DmtcpEvent_t event, DmtcpEventData_t *data)
@@ -27,7 +28,8 @@ void dmtcp_event_hook(DmtcpEvent_t event, DmtcpEventData_t *data)
   switch (event) {
   case DMTCP_EVENT_WRITE_CKPT:
     generate_new_directory();
-
+    snprintf(createCkptDirCmd, MAX_CREATEDIR_CMD, "mkdir -p %s", newCkptDir);	
+    system(createCkptDirCmd);
     dmtcp_set_ckpt_dir(newCkptDir);
     dmtcp_set_coord_ckpt_dir(newCkptDir);
     break;
