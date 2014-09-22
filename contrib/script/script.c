@@ -3,9 +3,9 @@
 #include <inttypes.h>
 #include "dmtcp.h"
 
-#define MAX_CKPT_DIR_LENGTH 128
-#define MAX_SCRIPT_PATH_LENGTH 128
-#define MAX_CREATEDIR_CMD 128
+#define MAX_CKPT_DIR_LENGTH 512
+#define MAX_SCRIPT_PATH_LENGTH 512
+#define MAX_CREATEDIR_CMD 512
 
 #define HOOK_PATH "/home/work/software/dmtcp/contrib/script"
 
